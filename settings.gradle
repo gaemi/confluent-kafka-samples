@@ -1,0 +1,8 @@
+rootProject.name = 'confluent-kafka-samples'
+include 'model'
+include 'vanilla-kafka:producer'
+include 'vanilla-kafka:consumer'
+include 'spring-kafka:producer'
+include 'spring-kafka:consumer'
+include 'spring-cloud-stream-kafka:producer'
+include 'spring-cloud-stream-kafka:consumer'

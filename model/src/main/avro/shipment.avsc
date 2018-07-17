@@ -1,0 +1,39 @@
+[
+  {
+    "type": "record",
+    "namespace": "io.github.gaemi.model",
+    "name": "Sender",
+    "doc": "보내는 사람",
+    "fields": [
+      {"name": "name", "type": ["null", "string"], "default": null, "doc": "이름"},
+      {"name": "address1", "type": ["null", "string"], "default": null, "doc": "주소"},
+      {"name": "address2", "type": ["null", "string"], "default": null, "doc": "상세주소"},
+      {"name": "phoneNumber", "type": ["null", "string"], "default": null, "doc": "휴대폰번호"}
+    ]
+  },
+  {
+    "type": "record",
+    "namespace": "io.github.gaemi.model",
+    "name": "Recipient",
+    "doc": "받는 사람",
+    "fields": [
+      {"name": "name", "type": ["null", "string"], "default": null, "doc": "이름"},
+      {"name": "address1", "type": ["null", "string"], "default": null, "doc": "주소"},
+      {"name": "address2", "type": ["null", "string"], "default": null, "doc": "상세주소"},
+      {"name": "phoneNumber", "type": ["null", "string"], "default": null, "doc": "휴대폰번호"}
+    ]
+  },
+  {
+    "type": "record",
+    "namespace": "io.github.gaemi.model",
+    "name": "Shipment",
+    "doc": "수송품",
+    "fields": [
+      {"name": "sender", "type": "io.github.gaemi.model.Sender", "doc": "보내는 사람"},
+      {"name": "recipient", "type": "io.github.gaemi.model.Recipient", "doc": "받는 사람"},
+      {"name": "contents", "type": {"type": "array", "items": "string"}, "default": [], "doc": "내용물"},
+      {"name": "charge", "type": "long", "default": 0, "doc": "배송비"},
+      {"name": "paymentMethod", "type": {"type": "enum", "name": "PaymentMethod", "symbols": ["Cash", "CreditCard", "COD"]}, "default": "Cash", "doc": "지불수단"}
+    ]
+  }
+]

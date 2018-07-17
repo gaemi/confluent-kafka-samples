@@ -1,0 +1,102 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "http://repo.spring.io/plugins-release" }
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$spring_boot_version"
+        classpath "io.spring.gradle:dependency-management-plugin:$dependency_management_plugin_version"
+        classpath "io.spring.gradle:propdeps-plugin:$propdeps_plugin_version"
+        classpath "io.franzbecker:gradle-lombok:$lombok_plugin_version"
+        classpath "com.commercehub.gradle.plugin:gradle-avro-plugin:$avro_plugin_version"
+    }
+}
+
+allprojects {
+    group = 'io.github.gaemi'
+    version = artifact_version
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "idea"
+    apply plugin: "eclipse"
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "propdeps"
+    apply plugin: "propdeps-maven"
+    apply plugin: "propdeps-idea"
+    apply plugin: "propdeps-eclipse"
+    apply plugin: "io.franzbecker.gradle-lombok"
+
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+
+    lombok {
+        version = lombok_version
+        sha256 = ""
+    }
+
+    test {
+        useJUnitPlatform()
+        reports {
+            html.enabled = true
+        }
+        ignoreFailures false
+        minHeapSize = "256m"
+        maxHeapSize = "2G"
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+        options.incremental = true
+        options.compilerArgs << '-Xlint:unchecked'
+    }
+
+    idea.module {
+        downloadJavadoc = false
+        downloadSources = true
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://repo.spring.io/libs-snapshot'
+        }
+        maven {
+            url 'http://packages.confluent.io/maven/'
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+            mavenBom "org.springframework.cloud:spring-cloud-stream-dependencies:$spring_cloud_stream_dependency_version"
+            mavenBom "org.junit:junit-bom:$junit_version"
+        }
+
+        dependencies {
+            dependency "org.apache.avro:avro:$avro_version"
+            dependency "joda-time:joda-time:$joda_time_version"
+            dependency "org.apache.kafka:kafka_2.12:$kafka_version"
+            dependency "io.confluent:kafka-avro-serializer:$confluent_version"
+        }
+    }
+
+    dependencies {
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+        compile "org.springframework.boot:spring-boot-starter"
+        testCompile "org.springframework.boot:spring-boot-starter-test"
+        testCompile "org.junit.jupiter:junit-jupiter-api"
+        testRuntime "org.junit.jupiter:junit-jupiter-engine"
+    }
+
+    compileJava.dependsOn processResources
+}
+
+defaultTasks 'clean', 'jar'
+
+task wrapper(type: Wrapper) {
+    description = 'Generates gradlew[.bat] scripts'
+    gradleVersion = '4.8.1'
+}

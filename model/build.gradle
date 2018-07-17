@@ -1,0 +1,11 @@
+apply plugin: "com.commercehub.gradle.plugin.avro"
+
+avro {
+    createSetters = false
+    fieldVisibility = "PRIVATE"
+}
+
+dependencies {
+    compile "org.apache.avro:avro"
+    compile "joda-time:joda-time"
+}

@@ -1,0 +1,16 @@
+spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.stream.schema.avro.AvroMessageConverterAutoConfiguration
+      - org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  cloud:
+    stream:
+      schema-registry-client.endpoint: http://localhost:8081
+      cached: true
+      kafka:
+        binder:
+          brokers: localhost:9092
+      bindings:
+        shipment:
+          content-type: application/*+avro
+

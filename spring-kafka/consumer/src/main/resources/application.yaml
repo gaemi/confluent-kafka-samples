@@ -1,0 +1,10 @@
+schema:
+  registry:
+    url: http://localhost:8081
+bootstrap:
+  servers: localhost:9092
+spring:
+  kafka:
+    consumer:
+      group-id: spring-kafka
+      auto-offset-reset: earliest

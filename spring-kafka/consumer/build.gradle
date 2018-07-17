@@ -1,0 +1,7 @@
+apply plugin: "org.springframework.boot"
+
+dependencies {
+    compile project(":model") // shipment 가 포함된 모듈
+    compile "org.springframework.kafka:spring-kafka"
+    compile "io.confluent:kafka-avro-serializer" // confluent 에서 제공하는 avro serializer (schema registry 를 지원)
+}

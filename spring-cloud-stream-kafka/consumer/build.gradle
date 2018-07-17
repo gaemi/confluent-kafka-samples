@@ -1,0 +1,7 @@
+apply plugin: "org.springframework.boot"
+
+dependencies {
+    compile project(":model") // shipment 가 포함된 모듈
+    compile "org.springframework.cloud:spring-cloud-stream-schema"
+    compile "org.springframework.cloud:spring-cloud-starter-stream-kafka"
+}

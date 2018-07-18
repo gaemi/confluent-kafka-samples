@@ -9,6 +9,11 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
 
 @Slf4j
 @Component
@@ -17,8 +22,10 @@ public class ShipmentProcessor {
 
     private final Consumer<String, Shipment> consumer;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void process() {
+    @PostConstruct
+    public void subscribe() {
+        consumer.subscribe(Collections.singletonList("shipment"));
+
         while (true) {
             consumer.poll(1000).forEach(record -> {
                 log.info("received a message. {}", record);
@@ -28,4 +35,8 @@ public class ShipmentProcessor {
         }
     }
 
+    @PreDestroy
+    public void destroy() {
+        consumer.close(5, TimeUnit.SECONDS);
+    }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ShipmentController {
-    private final Producer<String, GenericRecord> producer;
+    private final Producer<String, Shipment> producer;
 
     @PostMapping("/shipments")
     public void send(@RequestBody Shipment shipment) {

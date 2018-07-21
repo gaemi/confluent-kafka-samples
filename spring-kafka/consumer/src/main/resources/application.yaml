@@ -1,10 +1,12 @@
-schema:
-  registry:
-    url: http://localhost:8081
-bootstrap:
-  servers: localhost:9092
 spring:
   kafka:
+    bootstrap-servers: localhost:9092
     consumer:
       group-id: spring-kafka
       auto-offset-reset: earliest
+      keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+      valueDeserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      properties:
+        schema:
+          registry:
+            url: http://localhost:8081

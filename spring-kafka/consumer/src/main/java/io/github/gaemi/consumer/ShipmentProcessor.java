@@ -9,10 +9,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ShipmentProcessor {
-
     @KafkaListener(topics = "shipment")
     public void process(ConsumerRecord<String, Shipment> record) {
         log.info("received a message. {}", record);
     }
-
 }
